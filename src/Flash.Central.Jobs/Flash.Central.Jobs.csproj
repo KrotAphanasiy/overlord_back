@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Hangfire.AspNetCore" Version="1.7.23" />
+      <PackageReference Include="Hangfire.Core" Version="1.7.23" />
+      <PackageReference Include="Hangfire.MemoryStorage" Version="1.7.0" />
+      <PackageReference Include="Hangfire.Postgresql" Version="1.8.5.4" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Flash.Central.Core\Flash.Central.Core.csproj" />
+	  <ProjectReference Include="..\Flash.Central.Foundation\Flash.Central.Foundation.csproj" />
+    </ItemGroup>
+
+</Project>

@@ -1,0 +1,45 @@
+version: '3.7'
+
+services:
+  database:
+    image: mdillon/postgis:10-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: rootasd123!
+      POSTGRES_DB: flash
+
+  central:
+    image: registry.digitalskynet.com/flash/gasstationsanalytics/dev/central:latest
+    build:
+      context: .
+      dockerfile: ./central.Dockerfile
+    ports:
+      - 5000:80
+    environment:
+      FLASH_ConnectionStrings__DefaultConnection: Host=database;Database=flash;Username=postgres;Password=rootasd123!;
+      FLASH_Migrations__Mode: Up
+      FLASH_Migration__AllowAutoMigrations: "true"
+      FLASH_DEBUG_MODE: 'true'
+      FLASH_DB_HOST: 'database'
+      FLASH_DB_USER: 'postgres'
+      FLASH_DB_PASSWORD: 'rootasd123!'
+    depends_on:
+      - "database"
+
+  admin:
+    image: registry.digitalskynet.com/flash/gasstationsanalytics/dev/admin:latest
+    build:
+      context: .
+      dockerfile: ./admin.Dockerfile
+    ports:
+      - 5002:80
+    environment:
+      FLASH_ConnectionStrings__DefaultConnection: Host=database;Database=flash;Username=postgres;Password=rootasd123!;
+
+  docs:
+    image:  registry.digitalskynet.com/flash/gasstationsanalytics/dev/docs:latest
+    build:
+      context: .
+      dockerfile: ./docs.Dockerfile
+    ports:
+      - 5003:80

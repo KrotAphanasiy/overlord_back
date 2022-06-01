@@ -1,0 +1,45 @@
+stages:
+  - build
+  - deploy
+
+variables:
+  BRANCH_ENV_MAPPING: development=dev;master=prod;cicd=dev
+  APP_NAME: flash
+
+include:
+  - project: 'digitalskynet/gitlab-essentials'
+    ref: master
+    file: '/ci/build/docker.yml'
+  - project: 'digitalskynet/gitlab-essentials'
+    ref: master
+    file: '/ci/deploy/kapitan.yml'
+
+just build central:
+  extends: .just_build_container_template
+  variables:
+    APP_TIER: central
+
+build central:
+  extends: .build_container_template
+  variables:
+    APP_TIER: central
+
+just build admin:
+  extends: .just_build_container_template
+  variables:
+    APP_TIER: admin
+
+build admin:
+  extends: .build_container_template
+  variables:
+    APP_TIER: admin
+
+build docs:
+  extends: .build_container_template
+  variables:
+    APP_TIER: docs
+
+deploy flash:
+  extends: deploy
+  variables:
+    TARGET_KAPITAN: 140
