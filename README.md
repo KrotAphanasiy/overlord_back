@@ -50,7 +50,7 @@ The Api-layer provides quite simple interface of 3 vital endpoints:
 Link to Swagger https://flash.devstaging.pw/swagger/index.html
 
 ### Flash.Central.AdminApi
-Serves to provide API for Admin UI, mostly for CRUD operations in database. The Api reference is too long to be descriped there, so not to repeat, here`s the link to Swagger with API-documentation https://admin-flash.devstaging.pw/swagger/index.html
+Serves to provide API for Admin UI, mostly for CRUD operations in database.
 
 ### Detector
 Detector is a services created with Python in couple with Tensorflow and OpenCV to detect numeric plates in camera regions. At the moment it runs on Jetson-microcomputer, which`s going to be located at gas station just next to the camera. The algorithm is quite simple - first we get a frame from the camera, then we cut it for regions and try find a numeric plate in each region (mostly - in two regions)m using the neural network of MobileNet SSD architecture (find out more at https://github.com/tensorflow/models). After all processings the DetectionEvent object, that consists of original frame image, cropped image, timstamp and camera bindings, is sent to Flash.Central.Api. Detector is also faultproof - it means that if the link to Flash.Central.Api is lost in some reason, Detector will store all the events in local SQL Lite database and send all the events to server as soon as the link is reestablished. It's also supposed to make Detectr self-reenvokable - that means if simply the power on Jetson is off for some reason, the detector executable script is to be launched alongside with operation system as soon as it's boot again. Deployment is going to be held through Ansible. That's where the Detector's responsibility ends.
